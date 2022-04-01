@@ -78,7 +78,8 @@ defmodule Execjs do
   defp compile_to_tempfile(program) do
     hash = :erlang.phash2({System.get_pid(), System.monotonic_time()})
     filename = ".execjs-#{hash}.js"
-    path = Path.join("/app", filename)
+    tmp_file_path = System.get_env("JS_TEMP_FILE_PATH", "/app")
+    path = Path.join(tmp_file_path, filename)
     File.write!(path, program, ~w[binary exclusive raw sync]a)
     path
   end
