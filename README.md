@@ -17,6 +17,8 @@ pick the best runtime available on the system.
 - [JavaScriptCore](https://trac.webkit.org/wiki/JSC)
 - [Rhino](https://developer.mozilla.org/en-US/docs/Mozilla/Projects/Rhino)
 
+Use JS_TEMP_FILE_PATH={folder_path} to store(& delete )Temp files
+
 Use the application environment (application key: `:execjs`, key: `:runtime`)
 to set the runtime `Execjs` uses. Alternatively, the `EXECJS_RUNTIME`
 environment variable can also be used to set the runtime.
