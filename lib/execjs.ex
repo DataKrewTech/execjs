@@ -26,10 +26,14 @@ defmodule Execjs do
           Poison.Parser.t(), Poison.Parser.t() | :undefined | no_return
   def call(context, identifier, args \\ [], opts\\ %{})
       when is_binary(identifier) and is_list(args) do
+    logger = get_logger();
     source =
-      "return #{identifier}.apply(this, #{
+      "#{logger};
+      result = #{identifier}.apply(this, #{
         Poison.encode!(args, escape: :javascript)
-      })"
+      });
+      resp = {result: result, logs: logs};
+      return JSON.stringify(resp);"
 
     exec(context.(source), opts)
   end
@@ -98,5 +102,20 @@ defmodule Execjs do
       ["err"] ->
         raise ExecError, message: "Unexpected error"
     end
+  end
+
+  defp get_logger() do
+    "
+    var logs = {
+      entries: []
+    };
+
+    var console = {};
+    console.log = function(obj){
+      logs.entries.push({
+        content: obj
+      });
+    };
+    "
   end
 end
