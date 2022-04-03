@@ -32,7 +32,7 @@ defmodule Execjs do
       result = #{identifier}.apply(this, #{
         Poison.encode!(args, escape: :javascript)
       });
-      resp = {result: result, logs: logs};
+      resp = {code_output: result, logs: logs};
       return JSON.stringify(resp);"
 
     exec(context.(source), opts)
